@@ -1,0 +1,286 @@
+/* ============================================================
+   style.css — Phase 1
+   Foundation: static tabs, sliding indicator, fade transition
+============================================================ */
+
+
+/* ============================================================
+   CUSTOM PROPERTIES (CSS Variables)
+   Defined once here at :root (the top of the document).
+   Used everywhere with var(--name).
+   Change a value here and it updates across the whole file.
+============================================================ */
+:root {
+  --color-bg:      #0f0f0f;   /* page background */
+  --color-surface: #1a1a1a;   /* component background */
+  --color-border:  #2e2e2e;   /* all borders */
+  --color-text:    #f0ece4;   /* primary text */
+  --color-muted:   #5a5a5a;   /* inactive / secondary text */
+  --color-accent:  #c9a96e;   /* gold — active states */
+
+  --font-display: 'DM Serif Display', Georgia, serif;
+  --font-body:    'DM Sans', sans-serif;
+
+  --radius: 6px;
+}
+
+
+/* ============================================================
+   RESET
+   Wipes browser default styles so we start from a clean slate.
+   box-sizing: border-box means padding and border are counted
+   INSIDE the element's width and height, not added on top.
+============================================================ */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+
+/* ============================================================
+   BODY
+   Centers everything on the page using flexbox.
+   min-height: 100vh keeps the body at least as tall as
+   the visible screen, even with little content.
+============================================================ */
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;      /* center vertically */
+  justify-content: center;  /* center horizontally */
+  padding: 2rem;
+}
+
+
+/* ============================================================
+   PAGE WRAPPER
+   Constrains content width and stacks children vertically.
+============================================================ */
+.page {
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+
+/* ============================================================
+   PAGE HEADER
+============================================================ */
+.page-label {
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: 6px;
+}
+
+.page-title {
+  font-family: var(--font-display);
+  font-size: 38px;
+  line-height: 1.15;
+  margin-bottom: 8px;
+}
+
+.page-subtitle {
+  font-size: 14px;
+  color: var(--color-muted);
+}
+
+
+/* ============================================================
+   TABS COMPONENT — OUTER WRAPPER
+   overflow: hidden clips children to the rounded corners.
+============================================================ */
+.tabs-component {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+
+/* ============================================================
+   TAB LIST — THE ROW OF BUTTONS
+   position: relative is critical here.
+   The sliding indicator (Day 3) is position: absolute, which
+   means it positions itself relative to the nearest ancestor
+   with position: relative/absolute/fixed.
+   Without this, the indicator would escape and float
+   relative to the page body instead of the tab list.
+============================================================ */
+.tab-list {
+  display: flex;
+  list-style: none;
+  border-bottom: 1px solid var(--color-border);
+  position: relative;       /* anchor for the indicator bar */
+}
+
+
+/* ============================================================
+   TAB BUTTON
+============================================================ */
+.tab-btn {
+  padding: 16px 28px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+
+  /* Strip default button browser styles */
+  background: none;
+  border: none;
+  cursor: pointer;
+
+  color: var(--color-muted);
+
+  /* margin-bottom: -1px pulls the button down 1px so its
+     bottom edge sits exactly on top of the tab-list border.
+     When the active button's border-bottom becomes visible,
+     it looks connected to the content below — the line disappears. */
+  margin-bottom: -1px;
+
+  /* The button's own bottom border. Used in Days 1–2.
+     On Day 3 the sliding indicator takes over this role visually.
+     We keep it here — it simply hides behind the indicator bar. */
+  border-bottom: 2px solid transparent;
+
+  transition: color 0.2s ease;
+}
+
+.tab-btn:hover {
+  color: var(--color-text);
+}
+
+/* When JavaScript adds .active to a button */
+.tab-btn.active {
+  color: var(--color-text);
+}
+
+
+/* ============================================================
+   SLIDING INDICATOR (Day 3)
+   A real DOM element — an empty <div> in the HTML.
+   Starts as 1px wide. JavaScript stretches and moves it
+   using CSS transform to match the active button.
+
+   position: absolute → floats inside .tab-list
+   bottom: -1px       → sits on the tab-list's bottom border
+   transform-origin: left → scales from the left edge, not center
+
+   transition → this is what creates the sliding animation.
+   When JavaScript changes the transform value, CSS automatically
+   interpolates between the old and new value over 0.35s.
+
+   WHY transform instead of width and left?
+   Animating transform runs on the GPU. Animating width or left
+   forces the browser to recalculate page layout on every frame
+   (called reflow) — much slower, especially on mobile.
+============================================================ */
+.tab-indicator {
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  height: 2px;
+  width: 1px;               /* starts tiny — JS will scaleX() it */
+  background-color: var(--color-accent);
+  transform-origin: left;
+
+  /* cubic-bezier(0.4, 0, 0.2, 1) — fast acceleration, smooth stop.
+     Feels like a physical object coming to rest.
+     Try swapping this with: ease, ease-out, linear, ease-in-out */
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+
+/* ============================================================
+   PANEL STAGE — CONTAINER FOR ALL PANELS (Days 4–5)
+   All panels live inside here, stacked on top of each other.
+   position: relative so absolute panels position inside it.
+   min-height prevents the container collapsing to zero when
+   all panels are position: absolute and out of normal flow.
+============================================================ */
+.tab-panels {
+  position: relative;
+  min-height: 160px;
+}
+
+
+/* ============================================================
+   TAB PANEL — HIDDEN STATE (Days 4–5)
+
+   WHY NOT display: none?
+   Because display cannot be animated. It is binary — on or off.
+   CSS transitions need a value to interpolate between.
+   display has none.
+
+   Instead we use three properties together to fake it:
+
+     opacity: 0          invisible, and 0→1 CAN be animated
+     visibility: hidden  removed from tab order, blocks clicks
+     position: absolute  out of layout flow, doesn't push others down
+
+   The CSS transition fires only on opacity — the animatable one.
+============================================================ */
+.tab-panel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 32px 28px;
+
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;   /* extra safety: cannot be clicked */
+
+  transition: opacity 0.35s ease;
+}
+
+
+/* ============================================================
+   TAB PANEL — ACTIVE / VISIBLE STATE
+   When JavaScript adds .active, these rules override the above.
+
+   position: relative → puts it back in normal layout flow.
+   This is what gives .tab-panels its rendered height.
+
+   opacity: 1 → fully visible. CSS animates the change.
+============================================================ */
+.tab-panel.active {
+  position: relative;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+
+/* ============================================================
+   PANEL CONTENT
+============================================================ */
+.panel-eyebrow {
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: 10px;
+}
+
+.panel-title {
+  font-family: var(--font-display);
+  font-size: 26px;
+  line-height: 1.25;
+  margin-bottom: 14px;
+}
+
+.panel-body {
+  font-size: 14px;
+  line-height: 1.85;
+  color: var(--color-muted);
+  max-width: 48ch;  /* ch = width of the "0" character. Limits line length. */
+}

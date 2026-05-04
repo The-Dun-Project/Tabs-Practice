@@ -1,0 +1,632 @@
+/* ============================================================
+   style.css — Full 14-Day Tab Project
+   All visual rules for every component on the page.
+============================================================ */
+
+
+/* ============================================================
+   CUSTOM PROPERTIES
+   Define once. Use everywhere. Change once to update everything.
+============================================================ */
+:root {
+  --color-bg:        #0f0f0f;
+  --color-surface:   #1a1a1a;
+  --color-surface-2: #222222;
+  --color-border:    #2e2e2e;
+  --color-text:      #f0ece4;
+  --color-muted:     #5a5a5a;
+  --color-accent:    #c9a96e;
+
+  --font-display: 'DM Serif Display', Georgia, serif;
+  --font-body:    'DM Sans', sans-serif;
+
+  --radius:    6px;
+  --radius-lg: 10px;
+}
+
+
+/* ============================================================
+   RESET
+============================================================ */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+
+/* ============================================================
+   BODY
+============================================================ */
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  min-height: 100vh;
+  padding: 4rem 2rem;
+}
+
+
+/* ============================================================
+   PAGE WRAPPER
+============================================================ */
+.page {
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;        /* centers the page wrapper horizontally */
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+
+/* ============================================================
+   PAGE HEADER
+============================================================ */
+.page-header {
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.page-label {
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: 6px;
+}
+
+.page-title {
+  font-family: var(--font-display);
+  font-size: 42px;
+  line-height: 1.15;
+  margin-bottom: 8px;
+}
+
+.page-subtitle {
+  font-size: 14px;
+  color: var(--color-muted);
+}
+
+
+/* ============================================================
+   PHASE HEADER
+   Marks the start of each learning phase.
+============================================================ */
+.phase-header {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.phase-tag {
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+.phase-title {
+  font-family: var(--font-display);
+  font-size: 22px;
+  color: var(--color-text);
+}
+
+
+/* ============================================================
+   SECTION LABEL
+   Marks individual day sections within a phase.
+============================================================ */
+.section-label {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  padding-left: 2px;
+}
+
+
+/* ============================================================
+   TABS COMPONENT — BASE WRAPPER
+   Used by all tab variants as the outer card.
+============================================================ */
+.tabs-component {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+
+/* ============================================================
+   TAB LIST
+   The row of buttons.
+   position: relative is essential — the sliding indicator
+   (position: absolute) positions itself inside this element.
+   Without position: relative here, the indicator would float
+   relative to the nearest positioned ancestor (the page body).
+============================================================ */
+.tab-list {
+  display: flex;
+  list-style: none;
+  border-bottom: 1px solid var(--color-border);
+  position: relative;       /* anchor for all absolute indicators */
+}
+
+
+/* ============================================================
+   TAB BUTTON
+============================================================ */
+.tab-btn {
+  padding: 16px 28px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  color: var(--color-muted);
+  margin-bottom: -1px;      /* overlaps the tab-list border-bottom */
+  transition: color 0.2s ease;
+}
+
+.tab-btn:hover {
+  color: var(--color-text);
+}
+
+.tab-btn.active {
+  color: var(--color-text);
+}
+
+
+/* ============================================================
+   SLIDING INDICATOR — BASE STYLES
+   Shared by all indicator variants.
+
+   Starts as 1px wide. JavaScript uses transform: scaleX()
+   to stretch it to the button's width and translateX() to
+   move it to the button's horizontal position.
+
+   transform-origin: left — scales from the left edge.
+
+   The transition property is what creates the slide animation.
+   CSS watches for changes to the transform value and
+   automatically interpolates between old and new.
+============================================================ */
+.tab-indicator,
+.slide-indicator,
+.height-indicator,
+.keyboard-indicator {
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  height: 2px;
+  width: 1px;
+  background-color: var(--color-accent);
+  transform-origin: left;
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+
+/* ============================================================
+   CONTENT PANELS — THE STAGE
+   All panels sit stacked inside this container.
+   position: relative — so absolute panels position here.
+   min-height — prevents collapse when all panels are absolute.
+============================================================ */
+.tab-panels {
+  position: relative;
+  min-height: 160px;
+}
+
+
+/* ============================================================
+   CONTENT PANEL — HIDDEN STATE
+   Why not display: none?
+   Because display cannot be animated. CSS transitions need
+   a numeric value to interpolate between. display has none.
+
+   Instead we combine:
+     opacity: 0          → invisible but animatable (0 → 1)
+     visibility: hidden  → removed from tab order, unclickable
+     position: absolute  → out of layout flow, doesn't push others
+============================================================ */
+.tab-panel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 32px 28px;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+}
+
+
+/* ============================================================
+   CONTENT PANEL — ACTIVE / VISIBLE STATE
+   position: relative puts it back in normal layout flow.
+   This gives .tab-panels its actual rendered height.
+============================================================ */
+.tab-panel.active {
+  position: relative;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+
+/* ============================================================
+   PANEL CONTENT TYPOGRAPHY
+============================================================ */
+.panel-eyebrow {
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: 10px;
+}
+
+.panel-title {
+  font-family: var(--font-display);
+  font-size: 26px;
+  line-height: 1.25;
+  margin-bottom: 14px;
+}
+
+.panel-body {
+  font-size: 14px;
+  line-height: 1.85;
+  color: var(--color-muted);
+  max-width: 48ch;
+}
+
+
+/* ============================================================
+   PHASE 2 — DIRECTIONAL SLIDE (Days 6–7)
+
+   How the slide works:
+   JavaScript adds one of four classes to the incoming and
+   outgoing panels to define the direction of animation.
+
+   Outgoing panel:
+     .slide-exit-left  → slides out to the LEFT  (user went right)
+     .slide-exit-right → slides out to the RIGHT (user went left)
+
+   Incoming panel:
+     .slide-enter-left  → enters FROM the right (user went right)
+     .slide-enter-right → enters FROM the left  (user went left)
+
+   overflow: hidden on .slide-panels clips the movement so
+   panels don't visibly travel outside the component.
+============================================================ */
+.slide-panels {
+  position: relative;
+  min-height: 160px;
+  overflow: hidden;       /* clips panels during slide animation */
+}
+
+/* All slide panels: positioned and opacity/visibility like tab-panel */
+.slide-panel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 32px 28px;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  /* Both opacity AND transform animate */
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity   0.4s ease;
+}
+
+/* Active: visible, centered */
+.slide-panel.active {
+  position: relative;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateX(0);
+}
+
+/* Outgoing panel when user navigated RIGHT — exits to the left */
+.slide-panel.slide-exit-left {
+  position: absolute;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(-40px);
+}
+
+/* Outgoing panel when user navigated LEFT — exits to the right */
+.slide-panel.slide-exit-right {
+  position: absolute;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(40px);
+}
+
+/* Incoming panel when user navigated RIGHT — starts from the right */
+.slide-panel.slide-enter-left {
+  position: absolute;
+  opacity: 0;
+  visibility: visible;
+  transform: translateX(40px);
+}
+
+/* Incoming panel when user navigated LEFT — starts from the left */
+.slide-panel.slide-enter-right {
+  position: absolute;
+  opacity: 0;
+  visibility: visible;
+  transform: translateX(-40px);
+}
+
+
+/* ============================================================
+   PHASE 2 — ANIMATED HEIGHT (Day 8)
+
+   .height-panels has NO min-height.
+   JavaScript sets an explicit pixel height on it and updates
+   it every time the tab changes. CSS transition animates it.
+
+   height: auto cannot be transitioned directly in CSS.
+   You always need an explicit pixel value (e.g. height: 120px)
+   to animate from and to.
+============================================================ */
+.height-panels {
+  position: relative;
+  overflow: hidden;
+  /* height will be set and animated by JavaScript */
+  transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Height panels behave like tab-panels but no absolute positioning
+   for the active one — height is managed by the container instead */
+.height-panel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 32px 28px;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+}
+
+.height-panel.active {
+  position: relative;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+
+/* ============================================================
+   PHASE 2 — KEYBOARD NAVIGATION (Days 9–10)
+   No extra CSS needed beyond the base tab styles.
+   The visual appearance is the same as Phase 1.
+   The difference is entirely in JavaScript.
+
+   We do add a visible focus ring so keyboard users can
+   see which button currently has focus.
+============================================================ */
+.tab-btn:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: -2px;
+}
+
+
+/* ============================================================
+   PHASE 3 — EASING PLAYGROUND (Days 11–12)
+
+   The easing-component has a data-easing attribute set by JS.
+   CSS attribute selectors apply the correct timing function
+   to the indicator based on that value.
+
+   Syntax: [data-easing="value"] targets elements where the
+   data-easing attribute equals that value.
+============================================================ */
+
+/* Standard — fast then decelerates (most natural) */
+.easing-component[data-easing="standard"] .easing-indicator {
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Ease Out — starts fast, ends slow (snappy) */
+.easing-component[data-easing="ease-out"] .easing-indicator {
+  transition-timing-function: ease-out;
+}
+
+/* Ease In-Out — slow start, fast middle, slow end */
+.easing-component[data-easing="ease-in-out"] .easing-indicator {
+  transition-timing-function: ease-in-out;
+}
+
+/* Linear — constant speed (robotic) */
+.easing-component[data-easing="linear"] .easing-indicator {
+  transition-timing-function: linear;
+}
+
+/* Bounce — overshoots then settles back */
+.easing-component[data-easing="bounce"] .easing-indicator {
+  transition-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Easing selector buttons */
+.easing-selector {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.easing-label {
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  margin-right: 4px;
+}
+
+.easing-btn {
+  padding: 6px 14px;
+  font-family: var(--font-body);
+  font-size: 12px;
+  background: none;
+  border: 1px solid var(--color-border);
+  border-radius: 100px;
+  cursor: pointer;
+  color: var(--color-muted);
+  transition: all 0.2s ease;
+}
+
+.easing-btn:hover {
+  border-color: var(--color-accent);
+  color: var(--color-text);
+}
+
+.easing-btn.active {
+  background-color: var(--color-accent);
+  border-color: var(--color-accent);
+  color: #0f0f0f;
+}
+
+/* The easing indicator uses the same base styles as tab-indicator
+   but its timing function is overridden by the attribute selectors above */
+.easing-indicator {
+  transition-duration: 0.5s;   /* slightly slower so you can feel it */
+}
+
+
+/* ============================================================
+   PHASE 3 — PILL TABS VARIANT (Day 14)
+
+   Instead of a line below the active button, a filled pill
+   slides BEHIND the button text. The indicator has a higher
+   z-index than the wrapper but lower than the buttons, so
+   it appears behind the text but above the background.
+============================================================ */
+.pill-list-wrapper {
+  position: relative;       /* anchor for the pill indicator */
+  padding: 10px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.pill-list {
+  display: flex;
+  list-style: none;
+  position: relative;
+  z-index: 2;               /* buttons sit above the pill indicator */
+}
+
+.pill-btn {
+  padding: 8px 20px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-muted);
+  border-radius: 100px;
+  transition: color 0.2s ease;
+  position: relative;
+  z-index: 2;
+}
+
+.pill-btn:hover {
+  color: var(--color-text);
+}
+
+.pill-btn.active {
+  color: #0f0f0f;           /* dark text on the gold pill background */
+}
+
+/* The sliding pill background */
+.pill-indicator {
+  position: absolute;
+  top: 10px;                /* matches the wrapper padding */
+  left: 10px;
+  height: calc(100% - 20px); /* full height minus top and bottom padding */
+  width: 1px;
+  background-color: var(--color-accent);
+  border-radius: 100px;
+  transform-origin: left;
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1;               /* behind buttons, above background */
+}
+
+/* Pill panels: more padding since there's no section header */
+.pill-panels {
+  min-height: 140px;
+}
+
+
+/* ============================================================
+   PHASE 3 — VERTICAL TABS VARIANT (Day 14)
+
+   Tabs run vertically on the left. Content is on the right.
+   Achieved with flexbox — flex-direction: row puts the
+   tab list and panel side by side instead of stacked.
+============================================================ */
+.vertical-tabs-component {
+  overflow: visible;
+}
+
+.vertical-layout {
+  display: flex;
+  flex-direction: row;     /* tabs left, content right */
+  min-height: 200px;
+}
+
+/* Vertical tab list — runs down the left side */
+.vertical-tab-list {
+  display: flex;
+  flex-direction: column;  /* buttons stack vertically */
+  list-style: none;
+  border-right: 1px solid var(--color-border);
+  min-width: 130px;
+  padding: 8px 0;
+}
+
+.vertical-tab-btn {
+  padding: 14px 20px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  text-align: left;
+  background: none;
+  border: none;
+  border-right: 2px solid transparent; /* active indicator on the RIGHT edge */
+  cursor: pointer;
+  color: var(--color-muted);
+  transition: color 0.2s ease, border-color 0.2s ease;
+  margin-right: -1px;      /* overlaps the vertical-tab-list border-right */
+}
+
+.vertical-tab-btn:hover {
+  color: var(--color-text);
+}
+
+.vertical-tab-btn.active {
+  color: var(--color-text);
+  border-right-color: var(--color-accent);
+}
+
+/* Vertical panels — fills the remaining space to the right */
+.vertical-panels {
+  flex: 1;                 /* expand to fill available horizontal space */
+  position: relative;
+  min-height: 160px;
+}

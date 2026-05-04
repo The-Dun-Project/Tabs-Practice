@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tabs — Full Project</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=DM+Serif+Display&display=swap" rel="stylesheet" />
+
+  <!-- Our stylesheet -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <div class="page">
+
+    <!-- Page heading -->
+    <div class="page-header">
+      <p class="page-label">14-Day Project</p>
+      <h1 class="page-title">Tab Component</h1>
+      <p class="page-subtitle">All phases. All concepts. One component.</p>
+    </div>
+
+
+    <!-- ============================================================
+         PHASE 1 — DAYS 1–5
+         Foundation: static tabs, sliding indicator, fade transition
+    ============================================================ -->
+    <div class="phase-header">
+      <span class="phase-tag">Phase 1 · Days 1–5</span>
+      <h2 class="phase-title">Foundation — Static tabs, sliding indicator, fade</h2>
+    </div>
+
+    <div class="tabs-component" id="main-tabs">
+
+      <!-- TAB BUTTONS
+           data-tab on each button must match the id on its panel.
+           The first button has .active — it is selected on load. -->
+      <ul class="tab-list" role="tablist">
+        <li><button class="tab-btn active" data-tab="craft"   role="tab">Craft</button></li>
+        <li><button class="tab-btn"        data-tab="process" role="tab">Process</button></li>
+        <li><button class="tab-btn"        data-tab="ship"    role="tab">Ship</button></li>
+      </ul>
+
+      <!-- SLIDING INDICATOR (Day 3)
+           Empty div. JavaScript moves it. CSS animates it. -->
+      <div class="tab-indicator" id="tab-indicator"></div>
+
+      <!-- CONTENT PANELS
+           All panels sit stacked. Only .active is visible.
+           The id must match the data-tab on its button. -->
+      <div class="tab-panels">
+
+        <div class="tab-panel active" id="craft" role="tabpanel">
+          <p class="panel-eyebrow">Foundation</p>
+          <h3 class="panel-title">The craft of building things</h3>
+          <p class="panel-body">Every interface you have ever used was written line by line by someone who once knew nothing. The only difference between you and them is the number of hours spent typing, breaking things, and figuring out why.</p>
+        </div>
+
+        <div class="tab-panel" id="process" role="tabpanel">
+          <p class="panel-eyebrow">Motion</p>
+          <h3 class="panel-title">Motion earns its place</h3>
+          <p class="panel-body">Animation is not decoration. It is information — it tells the user where they are, where something came from, and where it went. A good animation makes the interface feel alive. A bad one just makes people wait.</p>
+        </div>
+
+        <div class="tab-panel" id="ship" role="tabpanel">
+          <p class="panel-eyebrow">Transition</p>
+          <h3 class="panel-title">The fade is a conversation</h3>
+          <p class="panel-body">When content fades out before new content fades in, you are telling the user the old thing is leaving and something new is arriving. That small moment of acknowledgment is what makes a UI feel considered.</p>
+        </div>
+
+      </div>
+
+    </div><!-- end #main-tabs -->
+
+
+    <!-- ============================================================
+         PHASE 2 — DAYS 6–10
+         Transitions: directional slide, height animation, keyboard nav
+    ============================================================ -->
+    <div class="phase-header">
+      <span class="phase-tag">Phase 2 · Days 6–10</span>
+      <h2 class="phase-title">Transitions — Directional slide, height, keyboard</h2>
+    </div>
+
+
+    <!-- DAYS 6–7 — DIRECTIONAL SLIDE
+         Content slides left or right depending on which direction
+         the user navigated. data-index on each button tracks position.
+         JavaScript compares old index vs new index to decide direction. -->
+    <div class="section-label">Days 6–7 · Directional Slide</div>
+
+    <div class="tabs-component" id="slide-tabs">
+
+      <ul class="tab-list" role="tablist">
+        <li><button class="tab-btn active" data-tab="s-one"   data-index="0" role="tab">One</button></li>
+        <li><button class="tab-btn"        data-tab="s-two"   data-index="1" role="tab">Two</button></li>
+        <li><button class="tab-btn"        data-tab="s-three" data-index="2" role="tab">Three</button></li>
+      </ul>
+
+      <div class="tab-indicator slide-indicator"></div>
+
+      <!-- overflow: hidden clips the sliding panels so they don't
+           spill outside the component during animation -->
+      <div class="slide-panels">
+
+        <div class="slide-panel active" id="s-one" role="tabpanel">
+          <p class="panel-eyebrow">Panel One</p>
+          <h3 class="panel-title">Directional awareness</h3>
+          <p class="panel-body">Click the tabs in order, then in reverse. Watch how content slides in the direction of your navigation. The interface tells you where you are going.</p>
+        </div>
+
+        <div class="slide-panel" id="s-two" role="tabpanel">
+          <p class="panel-eyebrow">Panel Two</p>
+          <h3 class="panel-title">Left or right?</h3>
+          <p class="panel-body">JavaScript compares the index of the clicked tab to the active tab. If the new index is higher, you moved right. Lower means left. The content enters from the same direction.</p>
+        </div>
+
+        <div class="slide-panel" id="s-three" role="tabpanel">
+          <p class="panel-eyebrow">Panel Three</p>
+          <h3 class="panel-title">Direction is information</h3>
+          <p class="panel-body">You are now managing not just WHAT is active but the relationship between the previous state and the next one. This is a big conceptual step forward.</p>
+        </div>
+
+      </div>
+
+    </div><!-- end #slide-tabs -->
+
+
+    <!-- DAY 8 — ANIMATED HEIGHT
+         When panels have different amounts of content, the container
+         animates its height instead of jumping. JavaScript reads each
+         panel's scrollHeight and sets it explicitly on the container.
+         CSS transition animates the height change. -->
+    <div class="section-label">Day 8 · Animated Height</div>
+
+    <div class="tabs-component" id="height-tabs">
+
+      <ul class="tab-list" role="tablist">
+        <li><button class="tab-btn active" data-tab="h-short"  role="tab">Short</button></li>
+        <li><button class="tab-btn"        data-tab="h-medium" role="tab">Medium</button></li>
+        <li><button class="tab-btn"        data-tab="h-tall"   role="tab">Tall</button></li>
+      </ul>
+
+      <div class="tab-indicator height-indicator"></div>
+
+      <!-- height-panels has explicit height set by JavaScript.
+           CSS transition animates when that height changes. -->
+      <div class="height-panels">
+
+        <div class="height-panel active" id="h-short" role="tabpanel">
+          <p class="panel-eyebrow">Short content</p>
+          <h3 class="panel-title">Small panel</h3>
+          <p class="panel-body">This panel has very little content. Switch to the Tall tab and watch the container grow smoothly.</p>
+        </div>
+
+        <div class="height-panel" id="h-medium" role="tabpanel">
+          <p class="panel-eyebrow">Medium content</p>
+          <h3 class="panel-title">A bit more here</h3>
+          <p class="panel-body">This panel has a moderate amount of content. It is taller than Short but shorter than Tall. Watch the container resize as you switch between tabs — it grows and shrinks without jumping.</p>
+        </div>
+
+        <div class="height-panel" id="h-tall" role="tabpanel">
+          <p class="panel-eyebrow">Tall content</p>
+          <h3 class="panel-title">Lots of content in this one</h3>
+          <p class="panel-body">This panel is significantly taller than the others. Without height animation, the container would snap instantly to its new size. With animation, it grows naturally — like a physical thing expanding.</p>
+          <p class="panel-body" style="margin-top: 12px;">JavaScript reads this panel's scrollHeight — its natural full height — and sets that as an explicit pixel value on the container. CSS transition does the rest.</p>
+          <p class="panel-body" style="margin-top: 12px;">This is one of the trickier animation patterns because height: auto cannot be transitioned directly. You always need an explicit pixel value to animate from and to.</p>
+        </div>
+
+      </div>
+
+    </div><!-- end #height-tabs -->
+
+
+    <!-- DAYS 9–10 — KEYBOARD NAVIGATION
+         Click any tab, then use LEFT and RIGHT arrow keys.
+         Teaches: event.key, .focus(), tabindex, aria-selected. -->
+    <div class="section-label">Days 9–10 · Keyboard Navigation</div>
+
+    <div class="tabs-component" id="keyboard-tabs">
+
+      <!-- tabindex="0" makes the focused button reachable via Tab key.
+           tabindex="-1" removes a button from tab order (but JS can still focus it).
+           aria-selected tells screen readers which tab is active. -->
+      <ul class="tab-list" role="tablist" id="keyboard-tablist">
+        <li><button class="tab-btn active" data-tab="k-alpha" data-index="0" role="tab" aria-selected="true"  tabindex="0">Alpha</button></li>
+        <li><button class="tab-btn"        data-tab="k-beta"  data-index="1" role="tab" aria-selected="false" tabindex="-1">Beta</button></li>
+        <li><button class="tab-btn"        data-tab="k-gamma" data-index="2" role="tab" aria-selected="false" tabindex="-1">Gamma</button></li>
+      </ul>
+
+      <div class="tab-indicator keyboard-indicator"></div>
+
+      <div class="tab-panels">
+
+        <div class="tab-panel active" id="k-alpha" role="tabpanel">
+          <p class="panel-eyebrow">Keyboard · Alpha</p>
+          <h3 class="panel-title">Click me then press arrow keys</h3>
+          <p class="panel-body">Click any tab in this section. Then press your left and right arrow keys. You can navigate all three tabs without touching the mouse. This is how accessible interfaces work.</p>
+        </div>
+
+        <div class="tab-panel" id="k-beta" role="tabpanel">
+          <p class="panel-eyebrow">Keyboard · Beta</p>
+          <h3 class="panel-title">You pressed an arrow key</h3>
+          <p class="panel-body">JavaScript listened for the keydown event on the tab list. It checked event.key — if ArrowRight or ArrowLeft, it calculated the next index, called .focus() and .click() on that button.</p>
+        </div>
+
+        <div class="tab-panel" id="k-gamma" role="tabpanel">
+          <p class="panel-eyebrow">Keyboard · Gamma</p>
+          <h3 class="panel-title">It wraps around</h3>
+          <p class="panel-body">Right on the last tab wraps to the first. Left on the first tab wraps to the last. Users should never get stuck at the edge of a component.</p>
+        </div>
+
+      </div>
+
+    </div><!-- end #keyboard-tabs -->
+
+
+    <!-- ============================================================
+         PHASE 3 — DAYS 11–14
+         Polish: easing deep dive, rebuild, variants
+    ============================================================ -->
+    <div class="phase-header">
+      <span class="phase-tag">Phase 3 · Days 11–14</span>
+      <h2 class="phase-title">Polish — Easing, variants, mastery</h2>
+    </div>
+
+
+    <!-- DAYS 11–12 — EASING PLAYGROUND
+         Same component. Five different easing curves.
+         Switch the curve with the selector, then click the tabs
+         and feel how different each one is. -->
+    <div class="section-label">Days 11–12 · Easing Playground</div>
+
+    <!-- Clicking an easing button sets data-easing on the component.
+         CSS uses attribute selectors to apply the right curve. -->
+    <div class="easing-selector">
+      <span class="easing-label">Easing:</span>
+      <button class="easing-btn active" data-easing="standard">Standard</button>
+      <button class="easing-btn" data-easing="ease-out">Ease Out</button>
+      <button class="easing-btn" data-easing="ease-in-out">Ease In-Out</button>
+      <button class="easing-btn" data-easing="linear">Linear</button>
+      <button class="easing-btn" data-easing="bounce">Bounce</button>
+    </div>
+
+    <div class="tabs-component easing-component" id="easing-tabs" data-easing="standard">
+
+      <ul class="tab-list" role="tablist">
+        <li><button class="tab-btn active" data-tab="e-one"   role="tab">One</button></li>
+        <li><button class="tab-btn"        data-tab="e-two"   role="tab">Two</button></li>
+        <li><button class="tab-btn"        data-tab="e-three" role="tab">Three</button></li>
+      </ul>
+
+      <div class="tab-indicator easing-indicator" id="easing-indicator"></div>
+
+      <div class="tab-panels">
+
+        <div class="tab-panel active" id="e-one" role="tabpanel">
+          <p class="panel-eyebrow">Easing · Standard</p>
+          <h3 class="panel-title">Feel the difference</h3>
+          <p class="panel-body">Select a curve above, then click between these tabs. Standard cubic-bezier feels most natural — it accelerates fast and decelerates to rest, like a physical object moving through space.</p>
+        </div>
+
+        <div class="tab-panel" id="e-two" role="tabpanel">
+          <p class="panel-eyebrow">Easing · Ease Out</p>
+          <h3 class="panel-title">Snappy and decisive</h3>
+          <p class="panel-body">Ease-out starts fast and slows to rest. It feels snappy and confident. Good for UI elements that need to feel immediately responsive. The start is instant; the landing is smooth.</p>
+        </div>
+
+        <div class="tab-panel" id="e-three" role="tabpanel">
+          <p class="panel-eyebrow">Easing · Linear</p>
+          <h3 class="panel-title">Constant, mechanical</h3>
+          <p class="panel-body">Linear moves at constant speed. No acceleration. No deceleration. It feels robotic — like a machine, not a physical object. Almost nothing in real life moves this way.</p>
+        </div>
+
+      </div>
+
+    </div><!-- end #easing-tabs -->
+
+
+    <!-- DAY 14 — PILL TABS VARIANT
+         Same JavaScript logic. Background pill slides behind the text
+         instead of a line appearing below it. -->
+    <div class="section-label">Day 14 · Variant — Pill Tabs</div>
+
+    <div class="tabs-component" id="pill-tabs">
+
+      <div class="pill-list-wrapper">
+        <ul class="pill-list" role="tablist">
+          <li><button class="pill-btn active" data-tab="p-design" role="tab">Design</button></li>
+          <li><button class="pill-btn"        data-tab="p-build"  role="tab">Build</button></li>
+          <li><button class="pill-btn"        data-tab="p-ship"   role="tab">Ship</button></li>
+        </ul>
+        <!-- The filled pill that slides behind the button text -->
+        <div class="pill-indicator" id="pill-indicator"></div>
+      </div>
+
+      <div class="tab-panels pill-panels">
+
+        <div class="tab-panel active" id="p-design" role="tabpanel">
+          <p class="panel-eyebrow">Variant · Pill</p>
+          <h3 class="panel-title">Same logic, new skin</h3>
+          <p class="panel-body">The JavaScript for this component is identical to the main tabs. The only difference is the CSS. The indicator is now a filled background pill instead of a line below the text.</p>
+        </div>
+
+        <div class="tab-panel" id="p-build" role="tabpanel">
+          <p class="panel-eyebrow">Variant · Pill</p>
+          <h3 class="panel-title">One pattern, many forms</h3>
+          <p class="panel-body">Once you understand the core tab pattern — class toggling, indicator movement, panel switching — you can build any visual variant. The logic does not change. Only the appearance does.</p>
+        </div>
+
+        <div class="tab-panel" id="p-ship" role="tabpanel">
+          <p class="panel-eyebrow">Variant · Pill</p>
+          <h3 class="panel-title">Internalization complete</h3>
+          <p class="panel-body">By Day 14 you should be able to close every file and rebuild any variant of this component from memory. Not because you memorized the code — but because you understand it.</p>
+        </div>
+
+      </div>
+
+    </div><!-- end #pill-tabs -->
+
+
+    <!-- DAY 14 — VERTICAL TABS VARIANT
+         Tabs on the left. Content on the right.
+         Same JavaScript. Layout changed entirely by CSS. -->
+    <div class="section-label">Day 14 · Variant — Vertical Tabs</div>
+
+    <div class="tabs-component vertical-tabs-component" id="vertical-tabs">
+
+      <div class="vertical-layout">
+
+        <ul class="vertical-tab-list" role="tablist">
+          <li><button class="vertical-tab-btn active" data-tab="v-one"   role="tab">Overview</button></li>
+          <li><button class="vertical-tab-btn"        data-tab="v-two"   role="tab">Details</button></li>
+          <li><button class="vertical-tab-btn"        data-tab="v-three" role="tab">Notes</button></li>
+        </ul>
+
+        <div class="tab-panels vertical-panels">
+
+          <div class="tab-panel active" id="v-one" role="tabpanel">
+            <p class="panel-eyebrow">Vertical · Overview</p>
+            <h3 class="panel-title">Vertical layout</h3>
+            <p class="panel-body">The tabs are on the left. The content is on the right. The JavaScript is identical to every other tab component on this page. The layout is handled entirely by CSS flexbox with flex-direction: row.</p>
+          </div>
+
+          <div class="tab-panel" id="v-two" role="tabpanel">
+            <p class="panel-eyebrow">Vertical · Details</p>
+            <h3 class="panel-title">CSS does the heavy lifting</h3>
+            <p class="panel-body">Changing from horizontal to vertical requires almost no JavaScript changes. You change the flex-direction, adjust a few borders, and the layout shifts completely. The logic stays the same.</p>
+          </div>
+
+          <div class="tab-panel" id="v-three" role="tabpanel">
+            <p class="panel-eyebrow">Vertical · Notes</p>
+            <h3 class="panel-title">Layout is a design decision</h3>
+            <p class="panel-body">Vertical tabs suit settings panels and dashboards. Horizontal tabs suit content switching in constrained spaces. Same component. Different context. Same JavaScript.</p>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div><!-- end #vertical-tabs -->
+
+  </div><!-- end .page -->
+
+  <!-- Script at the bottom so all HTML exists before JS runs -->
+  <script src="script.js"></script>
+
+</body>
+</html>
