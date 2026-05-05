@@ -1,32 +1,34 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tabs — Phase 1</title>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tabs — Phase 1</title>
+    <!-- Google Fonts: loaded from the internet before the page renders -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=DM+Serif+Display&display=swap"
+      rel="stylesheet"
+    />
 
-  <!-- Google Fonts: loaded from the internet before the page renders -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=DM+Serif+Display&display=swap" rel="stylesheet" />
+    <!-- Our stylesheet -->
+    <link rel="stylesheet" href="style.css" />
+  </head>
 
-  <!-- Our stylesheet -->
-  <link rel="stylesheet" href="style.css" />
-</head>
+  <body>
+    <div class="page">
+      <!-- Page heading -->
+      <div class="page-header">
+        <p class="page-label">Phase 1 · Days 1-5</p>
+        <h1 class="page-title">Tab Component</h1>
+        <p class="page-subtitle">
+          Foundation — Static tabs, sliding indicator, fade transition
+        </p>
+      </div>
 
-<body>
-
-  <div class="page">
-
-    <!-- Page heading -->
-    <div class="page-header">
-      <p class="page-label">Phase 1 · Days 1–5</p>
-      <h1 class="page-title">Tab Component</h1>
-      <p class="page-subtitle">Foundation — Static tabs, sliding indicator, fade transition</p>
-    </div>
-
-    <!-- ============================================================
+      <!-- ============================================================
          TABS COMPONENT
          Two parts that always work together:
            .tab-list   → the row of clickable buttons
@@ -37,77 +39,81 @@
            The panel has id="craft"
          JavaScript uses that name to know which panel to show.
     ============================================================ -->
-    <div class="tabs-component">
-
-      <!-- TAB BUTTONS
+      <div class="tabs-component">
+        <!-- TAB BUTTONS
            role="tablist" and role="tab" are for screen readers.
            The first button has .active — selected on page load.
            data-tab must match the id of its panel. -->
-      <ul class="tab-list" role="tablist">
-        <li><button class="tab-btn active" data-tab="craft"   role="tab">Craft</button></li>
-        <li><button class="tab-btn"        data-tab="process" role="tab">Process</button></li>
-        <li><button class="tab-btn"        data-tab="ship"    role="tab">Ship</button></li>
-      </ul>
+        <ul class="tab-list" role="tablist">
+          <li>
+            <button class="tab-btn active" data-tab="craft" role="tab">
+              Craft
+            </button>
+          </li>
+          <li>
+            <button class="tab-btn" data-tab="process" role="tab">
+              Process
+            </button>
+          </li>
+          <li>
+            <button class="tab-btn" data-tab="ship" role="tab">Ship</button>
+          </li>
+        </ul>
 
-      <!-- SLIDING INDICATOR (Day 3)
+        <!-- SLIDING INDICATOR (Day 3)
            An empty div. JavaScript measures each button and moves
            this bar underneath the active one.
            CSS transition makes that movement animate smoothly. -->
-      <div class="tab-indicator" id="tab-indicator"></div>
+        <div class="tab-indicator" id="tab-indicator"></div>
 
-      <!-- CONTENT PANELS
+        <!-- CONTENT PANELS
            All three panels live here, stacked on top of each other.
            Only the one with .active is visible at any time.
            The id must match the data-tab on its button. -->
-      <div class="tab-panels">
+        <div class="tab-panels">
+          <!-- Panel 1: .active means visible on load -->
+          <div class="tab-panel active" id="craft" role="tabpanel">
+            <p class="panel-eyebrow">Day 1 · Foundation</p>
+            <h2 class="panel-title">The craft of building things</h2>
+            <p class="panel-body">
+              Every interface you have ever used was written line by line by
+              someone who once knew nothing. The only difference between you and
+              them is the number of hours spent typing, breaking things, and
+              figuring out why. You are in that process now.
+            </p>
+          </div>
 
-        <!-- Panel 1: .active means visible on load -->
-        <div class="tab-panel active" id="craft" role="tabpanel">
-          <p class="panel-eyebrow">Day 1 · Foundation</p>
-          <h2 class="panel-title">The craft of building things</h2>
-          <p class="panel-body">
-            Every interface you have ever used was written line by line
-            by someone who once knew nothing. The only difference between
-            you and them is the number of hours spent typing, breaking
-            things, and figuring out why. You are in that process now.
-          </p>
+          <!-- Panel 2: hidden by default, no .active -->
+          <div class="tab-panel" id="process" role="tabpanel">
+            <p class="panel-eyebrow">Day 3 · Motion</p>
+            <h2 class="panel-title">Motion earns its place</h2>
+            <p class="panel-body">
+              Animation is not decoration. It is information — it tells the user
+              where they are, where something came from, and where it went. A
+              good animation makes the interface feel alive. A bad one just
+              makes people wait.
+            </p>
+          </div>
+
+          <!-- Panel 3: hidden by default, no .active -->
+          <div class="tab-panel" id="ship" role="tabpanel">
+            <p class="panel-eyebrow">Day 5 · Transition</p>
+            <h2 class="panel-title">The fade is a conversation</h2>
+            <p class="panel-body">
+              When content fades out before new content fades in, you are
+              telling the user the old thing is leaving and something new is
+              arriving. That small moment of acknowledgment is what makes a UI
+              feel considered rather than cheap.
+            </p>
+          </div>
         </div>
-
-        <!-- Panel 2: hidden by default, no .active -->
-        <div class="tab-panel" id="process" role="tabpanel">
-          <p class="panel-eyebrow">Day 3 · Motion</p>
-          <h2 class="panel-title">Motion earns its place</h2>
-          <p class="panel-body">
-            Animation is not decoration. It is information — it tells
-            the user where they are, where something came from, and
-            where it went. A good animation makes the interface feel
-            alive. A bad one just makes people wait.
-          </p>
-        </div>
-
-        <!-- Panel 3: hidden by default, no .active -->
-        <div class="tab-panel" id="ship" role="tabpanel">
-          <p class="panel-eyebrow">Day 5 · Transition</p>
-          <h2 class="panel-title">The fade is a conversation</h2>
-          <p class="panel-body">
-            When content fades out before new content fades in, you are
-            telling the user the old thing is leaving and something new
-            is arriving. That small moment of acknowledgment is what
-            makes a UI feel considered rather than cheap.
-          </p>
-        </div>
-
+        <!-- end .tab-panels -->
       </div>
-      <!-- end .tab-panels -->
-
+      <!-- end .tabs-component -->
     </div>
-    <!-- end .tabs-component -->
+    <!-- end .page -->
 
-  </div>
-  <!-- end .page -->
-
-  <!-- Script at the bottom so all HTML exists before JS runs -->
-  <script src="script.js"></script>
-
-</body>
+    <!-- Script at the bottom so all HTML exists before JS runs -->
+    <script src="script.js"></script>
+  </body>
 </html>
