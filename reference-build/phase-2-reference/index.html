@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tabs — Phase 2</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=DM+Serif+Display&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <div class="page">
+
+    <!-- Page heading -->
+    <div class="page-header">
+      <p class="page-label">Phase 2 · Days 6–10</p>
+      <h1 class="page-title">Transitions</h1>
+      <p class="page-subtitle">Directional slide, animated height, keyboard navigation</p>
+    </div>
+
+
+    <!-- ============================================================
+         DAYS 6–7 — DIRECTIONAL SLIDE
+         Content slides LEFT or RIGHT depending on which direction
+         the user navigated.
+
+         Clicking a tab to the RIGHT of the current one:
+           → old content exits to the LEFT
+           → new content enters from the RIGHT
+
+         Clicking a tab to the LEFT of the current one:
+           → old content exits to the RIGHT
+           → new content enters from the LEFT
+
+         data-index on each button tracks its position number (0, 1, 2).
+         JavaScript compares the old index to the new index to decide
+         which direction to animate.
+    ============================================================ -->
+    <div class="section-label">Days 6–7 · Directional Slide</div>
+
+    <div class="tabs-component" id="slide-tabs">
+
+      <!-- data-index tracks position: 0, 1, 2
+           JavaScript reads this to calculate direction -->
+      <ul class="tab-list" role="tablist">
+        <li><button class="tab-btn active" data-tab="s-one"   data-index="0" role="tab">One</button></li>
+        <li><button class="tab-btn"        data-tab="s-two"   data-index="1" role="tab">Two</button></li>
+        <li><button class="tab-btn"        data-tab="s-three" data-index="2" role="tab">Three</button></li>
+      </ul>
+
+      <!-- Sliding indicator bar — same as Phase 1 -->
+      <div class="tab-indicator slide-indicator"></div>
+
+      <!-- .slide-panels has overflow: hidden to clip the panels
+           so sliding content doesn't spill outside the component
+           during the animation -->
+      <div class="slide-panels">
+
+        <div class="slide-panel active" id="s-one" role="tabpanel">
+          <p class="panel-eyebrow">Panel One</p>
+          <h2 class="panel-title">Directional awareness</h2>
+          <p class="panel-body">
+            Click the tabs in order, then in reverse. Watch how the content
+            slides in the direction of your navigation. The interface tells
+            you where you are going, not just what changed.
+          </p>
+        </div>
+
+        <div class="slide-panel" id="s-two" role="tabpanel">
+          <p class="panel-eyebrow">Panel Two</p>
+          <h2 class="panel-title">Left or right?</h2>
+          <p class="panel-body">
+            JavaScript compares the index of the tab you clicked to the
+            index of the currently active tab. If the new index is higher,
+            you moved right. Lower means left. The content enters from
+            the same direction you navigated.
+          </p>
+        </div>
+
+        <div class="slide-panel" id="s-three" role="tabpanel">
+          <p class="panel-eyebrow">Panel Three</p>
+          <h2 class="panel-title">Direction is information</h2>
+          <p class="panel-body">
+            You are now managing not just WHAT is active but the
+            relationship between the previous state and the next one.
+            This is a meaningful step forward from a simple fade.
+          </p>
+        </div>
+
+      </div>
+      <!-- end .slide-panels -->
+
+    </div>
+    <!-- end #slide-tabs -->
+
+
+    <!-- ============================================================
+         DAY 8 — ANIMATED HEIGHT
+         When tab panels have different amounts of content, the
+         container animates its height instead of jumping instantly.
+
+         The trick: CSS cannot animate height: auto.
+         You need an explicit pixel value to transition between.
+
+         JavaScript reads each panel's scrollHeight (its full natural
+         height even when hidden), then sets that as a pixel value on
+         the container. CSS transition animates the change.
+
+         The three panels below have intentionally different amounts
+         of content so the height difference is easy to see.
+    ============================================================ -->
+    <div class="section-label">Day 8 · Animated Height</div>
+
+    <div class="tabs-component" id="height-tabs">
+
+      <ul class="tab-list" role="tablist">
+        <li><button class="tab-btn active" data-tab="h-short"  role="tab">Short</button></li>
+        <li><button class="tab-btn"        data-tab="h-medium" role="tab">Medium</button></li>
+        <li><button class="tab-btn"        data-tab="h-tall"   role="tab">Tall</button></li>
+      </ul>
+
+      <div class="tab-indicator height-indicator"></div>
+
+      <!-- .height-panels has no min-height — JavaScript sets its
+           height explicitly and CSS transition animates the resize -->
+      <div class="height-panels">
+
+        <!-- Short content — small panel -->
+        <div class="height-panel active" id="h-short" role="tabpanel">
+          <p class="panel-eyebrow">Short content</p>
+          <h2 class="panel-title">Small panel</h2>
+          <p class="panel-body">
+            This panel has very little content. Switch to Tall and watch
+            the container grow smoothly without jumping.
+          </p>
+        </div>
+
+        <!-- Medium content — mid-size panel -->
+        <div class="height-panel" id="h-medium" role="tabpanel">
+          <p class="panel-eyebrow">Medium content</p>
+          <h2 class="panel-title">A bit more here</h2>
+          <p class="panel-body">
+            This panel has a moderate amount of content. It is taller than
+            Short but shorter than Tall. Watch the container resize as you
+            switch — it grows and shrinks without any jumping.
+          </p>
+        </div>
+
+        <!-- Tall content — large panel -->
+        <div class="height-panel" id="h-tall" role="tabpanel">
+          <p class="panel-eyebrow">Tall content</p>
+          <h2 class="panel-title">Lots of content in this one</h2>
+          <p class="panel-body">
+            This panel is significantly taller than the others. Without
+            height animation, the container would snap to its new size
+            instantly. With animation, it grows naturally.
+          </p>
+          <p class="panel-body" style="margin-top: 12px;">
+            JavaScript reads this panel's scrollHeight — its full content
+            height even while hidden — and sets that as a pixel value on
+            the container. CSS transition does the rest.
+          </p>
+          <p class="panel-body" style="margin-top: 12px;">
+            This is one of the trickier animation patterns because
+            height: auto cannot be transitioned. You always need an
+            explicit pixel value to animate from and to.
+          </p>
+        </div>
+
+      </div>
+      <!-- end .height-panels -->
+
+    </div>
+    <!-- end #height-tabs -->
+
+
+    <!-- ============================================================
+         DAYS 9–10 — KEYBOARD NAVIGATION
+         Click any tab in this component, then use your LEFT and
+         RIGHT arrow keys to navigate between tabs.
+
+         New concepts introduced:
+           event.key        which key was pressed (e.g. "ArrowRight")
+           .focus()         moves browser focus to an element
+           tabindex="0"     element is reachable via the Tab key
+           tabindex="-1"    element is skipped by the Tab key
+                            (but JavaScript can still focus it)
+           aria-selected    tells screen readers which tab is active
+
+         Wrapping: right on the last tab goes to the first.
+         Left on the first tab goes to the last.
+    ============================================================ -->
+    <div class="section-label">Days 9–10 · Keyboard Navigation</div>
+
+    <div class="tabs-component" id="keyboard-tabs">
+
+      <!-- Only the active button has tabindex="0" — in the natural tab order.
+           Others have tabindex="-1" — reachable by JS but skipped by Tab key.
+           aria-selected communicates active state to screen readers. -->
+      <ul class="tab-list" role="tablist" id="keyboard-tablist">
+        <li><button class="tab-btn active" data-tab="k-alpha" data-index="0" role="tab" aria-selected="true"  tabindex="0">Alpha</button></li>
+        <li><button class="tab-btn"        data-tab="k-beta"  data-index="1" role="tab" aria-selected="false" tabindex="-1">Beta</button></li>
+        <li><button class="tab-btn"        data-tab="k-gamma" data-index="2" role="tab" aria-selected="false" tabindex="-1">Gamma</button></li>
+      </ul>
+
+      <div class="tab-indicator keyboard-indicator"></div>
+
+      <div class="tab-panels">
+
+        <div class="tab-panel active" id="k-alpha" role="tabpanel">
+          <p class="panel-eyebrow">Keyboard · Alpha</p>
+          <h2 class="panel-title">Click me, then press arrow keys</h2>
+          <p class="panel-body">
+            Click any tab in this section. Then press your left and right
+            arrow keys. You can navigate all three tabs without touching
+            the mouse. This is how accessible interfaces work.
+          </p>
+        </div>
+
+        <div class="tab-panel" id="k-beta" role="tabpanel">
+          <p class="panel-eyebrow">Keyboard · Beta</p>
+          <h2 class="panel-title">You pressed an arrow key</h2>
+          <p class="panel-body">
+            JavaScript listened for keydown on the tab list. It checked
+            event.key — if ArrowRight or ArrowLeft, it calculated the
+            next index and called .focus() and .click() on that button.
+          </p>
+        </div>
+
+        <div class="tab-panel" id="k-gamma" role="tabpanel">
+          <p class="panel-eyebrow">Keyboard · Gamma</p>
+          <h2 class="panel-title">It wraps around</h2>
+          <p class="panel-body">
+            Right on the last tab goes back to the first. Left on the
+            first goes to the last. Users should never get stuck at
+            the edge of a component.
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+    <!-- end #keyboard-tabs -->
+
+  </div>
+  <!-- end .page -->
+
+  <script src="script.js"></script>
+
+</body>
+</html>
