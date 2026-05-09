@@ -3,7 +3,6 @@
    Foundation: static tabs, sliding indicator, fade transition
 ============================================================ */
 
-
 /* ============================================================
    CUSTOM PROPERTIES (CSS Variables)
    Defined once here at :root (the top of the document).
@@ -11,19 +10,18 @@
    Change a value here and it updates across the whole file.
 ============================================================ */
 :root {
-  --color-bg:      #0f0f0f;   /* page background */
-  --color-surface: #1a1a1a;   /* component background */
-  --color-border:  #2e2e2e;   /* all borders */
-  --color-text:    #f0ece4;   /* primary text */
-  --color-muted:   #5a5a5a;   /* inactive / secondary text */
-  --color-accent:  #c9a96e;   /* gold — active states */
+  --color-bg: #0f0f0f; /* page background */
+  --color-surface: #1a1a1a; /* component background */
+  --color-border: #2e2e2e; /* all borders */
+  --color-text: #f0ece4; /* primary text */
+  --color-muted: #5a5a5a; /* inactive / secondary text */
+  --color-accent: #c9a96e; /* gold — active states */
 
-  --font-display: 'DM Serif Display', Georgia, serif;
-  --font-body:    'DM Sans', sans-serif;
+  --font-display: "DM Serif Display", Georgia, serif;
+  --font-body: "DM Sans", sans-serif;
 
   --radius: 6px;
 }
-
 
 /* ============================================================
    RESET
@@ -31,12 +29,13 @@
    box-sizing: border-box means padding and border are counted
    INSIDE the element's width and height, not added on top.
 ============================================================ */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
-
 
 /* ============================================================
    BODY
@@ -50,11 +49,10 @@ body {
   color: var(--color-text);
   min-height: 100vh;
   display: flex;
-  align-items: center;      /* center vertically */
-  justify-content: center;  /* center horizontally */
+  align-items: center; /* center vertically */
+  justify-content: center; /* center horizontally */
   padding: 2rem;
 }
-
 
 /* ============================================================
    PAGE WRAPPER
@@ -67,7 +65,6 @@ body {
   flex-direction: column;
   gap: 2.5rem;
 }
-
 
 /* ============================================================
    PAGE HEADER
@@ -92,7 +89,6 @@ body {
   color: var(--color-muted);
 }
 
-
 /* ============================================================
    TABS COMPONENT — OUTER WRAPPER
    overflow: hidden clips children to the rounded corners.
@@ -103,7 +99,6 @@ body {
   border-radius: var(--radius);
   overflow: hidden;
 }
-
 
 /* ============================================================
    TAB LIST — THE ROW OF BUTTONS
@@ -118,9 +113,8 @@ body {
   display: flex;
   list-style: none;
   border-bottom: 1px solid var(--color-border);
-  position: relative;       /* anchor for the indicator bar */
+  position: relative; /* anchor for the indicator bar */
 }
-
 
 /* ============================================================
    TAB BUTTON
@@ -163,7 +157,6 @@ body {
   color: var(--color-text);
 }
 
-
 /* ============================================================
    SLIDING INDICATOR (Day 3)
    A real DOM element — an empty <div> in the HTML.
@@ -188,7 +181,7 @@ body {
   bottom: -1px;
   left: 0;
   height: 2px;
-  width: 1px;               /* starts tiny — JS will scaleX() it */
+  width: 1px; /* starts tiny — JS will scaleX() it */
   background-color: var(--color-accent);
   transform-origin: left;
 
@@ -197,7 +190,6 @@ body {
      Try swapping this with: ease, ease-out, linear, ease-in-out */
   transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
-
 
 /* ============================================================
    PANEL STAGE — CONTAINER FOR ALL PANELS (Days 4–5)
@@ -210,7 +202,6 @@ body {
   position: relative;
   min-height: 160px;
 }
-
 
 /* ============================================================
    TAB PANEL — HIDDEN STATE (Days 4–5)
@@ -237,11 +228,10 @@ body {
 
   opacity: 0;
   visibility: hidden;
-  pointer-events: none;   /* extra safety: cannot be clicked */
+  pointer-events: none; /* extra safety: cannot be clicked */
 
   transition: opacity 0.35s ease;
 }
-
 
 /* ============================================================
    TAB PANEL — ACTIVE / VISIBLE STATE
@@ -258,7 +248,6 @@ body {
   visibility: visible;
   pointer-events: auto;
 }
-
 
 /* ============================================================
    PANEL CONTENT
@@ -282,5 +271,5 @@ body {
   font-size: 14px;
   line-height: 1.85;
   color: var(--color-muted);
-  max-width: 48ch;  /* ch = width of the "0" character. Limits line length. */
+  max-width: 48ch; /* ch = width of the "0" character. Limits line length. */
 }

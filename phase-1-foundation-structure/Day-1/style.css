@@ -1,0 +1,177 @@
+/* CSS VARIABLES */
+
+:root {
+  --color-bg: #0f0f0f;
+  --color-surface: #1a1a1a;
+  --color-border: #2e2e2e;
+  --color-text: #f0ece4;
+  --color-muted: #5a5a5a;
+  --color-accent: #c9a96e;
+
+  --font-display: "DM Serif Display", Georgia, serif;
+  --font-body: "DM Sans", sans-serif;
+
+  --radius: 6px;
+}
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--color-bg);
+  color: var(--color-text);
+  min-height: 100vh;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+/* ============================================================
+   PAGE WRAPPER
+   Constrains content width and stacks children vertically.
+============================================================ */
+.page {
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+/*===========================================================
+PAGE HEADER
+===========================================================*/
+.page-label {
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: 6px;
+}
+
+.page-title {
+  font-family: var(--font-display);
+  font-size: 38px;
+  line-height: 1.15;
+  margin-bottom: 8px;
+}
+
+.page-subtitle {
+  font-size: 14px;
+  color: var(--color-muted);
+}
+/* ============================================================
+   TABS COMPONENT — OUTER WRAPPER
+============================================================ */
+.tabs-component {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+/* ============================================================
+   TAB LIST — THE ROW OF BUTTONS
+   position: relative is critical here.
+============================================================ */
+.tab-list {
+  display: flex;
+  list-style: none;
+  border-bottom: 1px solid var(--color-border);
+  position: relative;
+}
+/* ============================================================
+   TAB BUTTON
+============================================================ */
+.tab-btn {
+  padding: 16px 28px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  background: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  color: var(--color-muted);
+  margin-bottom: -1px;
+  border-bottom: 2px solid transparent;
+  transition: color 0.2s ease;
+}
+
+.tab-btn:hover {
+  color: var(--color-text);
+}
+/* When JavaScript adds .active to a button */
+.tab-btn.active {
+  color: var(--color-text);
+}
+/* ============================================================
+   SLIDING INDICATOR
+============================================================ */
+.tab-indicator {
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  height: 2px;
+  width: 1px;
+  background-color: var(--color-accent);
+  transform-origin: left;
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+/* ============================================================
+   PANEL STAGE — CONTAINER FOR ALL PANELS
+============================================================ */
+.tab-panels {
+  position: relative;
+  min-height: 200px;
+}
+
+.tab-panel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 32px 28px;
+
+  opacity: 0;
+  visibility: hidden;
+}
+/* ============================================================
+   TAB PANEL — ACTIVE / VISIBLE STATE
+============================================================ */
+.tab-panel.active {
+  position: relative;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+/* ============================================================
+  PANEL CONTENT
+============================================================ */
+.panel-eyebrow {
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: 10px;
+}
+
+.panel-title {
+  font-family: var(--font-display);
+  font-size: 26px;
+  line-height: 1.25;
+  margin-bottom: 14px;
+}
+
+.panel-body {
+  font-size: 10px;
+  line-height: 1.85;
+  color: var(--color-muted);
+  max-width: 48ch;
+}
