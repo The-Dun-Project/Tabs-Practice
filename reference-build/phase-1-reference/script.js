@@ -8,7 +8,6 @@
    interact with them.
 ============================================================ */
 
-
 /* ============================================================
    STEP 1 — GRAB THE ELEMENTS
    We find the elements we need from the HTML and store them
@@ -19,10 +18,9 @@
 
    getElementById() finds the ONE element with that exact id.
 ============================================================ */
-var tabButtons = document.querySelectorAll('.tab-btn');
-var tabPanels  = document.querySelectorAll('.tab-panel');
-var indicator  = document.getElementById('tab-indicator');
-
+const tabButtons = document.querySelectorAll(".tab-btn");
+const tabPanels = document.querySelectorAll(".tab-panel");
+const indicator = document.getElementById("tab-indicator");
 
 /* ============================================================
    STEP 2 — THE moveIndicator FUNCTION
@@ -36,17 +34,16 @@ var indicator  = document.getElementById('tab-indicator');
    the indicator's CSS transform to match that position and size.
 ============================================================ */
 function moveIndicator(btn) {
-
   /* getBoundingClientRect() measures an element's size and
      position relative to the viewport (the visible browser window).
      Returns: { top, left, right, bottom, width, height } */
-  var btnRect  = btn.getBoundingClientRect();
+  const btnRect = btn.getBoundingClientRect();
 
   /* btn.closest('.tab-list') walks UP the DOM from the button
      and returns the nearest parent matching '.tab-list'.
      We measure it to calculate a position relative to the list,
      not relative to the screen edge. */
-  var listRect = btn.closest('.tab-list').getBoundingClientRect();
+  const listRect = btn.closest(".tab-list").getBoundingClientRect();
 
   /* Subtract the list's left from the button's left to get
      how far the button is from the list's own left edge.
@@ -55,10 +52,10 @@ function moveIndicator(btn) {
        listRect.left = 40   (the list starts 40px from screen left)
        btnRect.left  = 160  (the button starts 160px from screen left)
        offsetLeft    = 120  (the button is 120px inside the list) */
-  var offsetLeft = btnRect.left - listRect.left;
+  const offsetLeft = btnRect.left - listRect.left;
 
   /* The button's width — the indicator must match it */
-  var width = btnRect.width;
+  const width = btnRect.width;
 
   /* Apply both values as a CSS transform on the indicator.
      The indicator is 1px wide in CSS.
@@ -69,10 +66,8 @@ function moveIndicator(btn) {
      The CSS transition property on .tab-indicator automatically
      animates between the old transform value and the new one.
      We just set the new value — CSS handles the smooth movement. */
-  indicator.style.transform =
-    'translateX(' + offsetLeft + 'px) scaleX(' + width + ')';
+  indicator.style.transform = "translateX(" + offsetLeft + "px) scaleX(" + width + ")";
 }
-
 
 /* ============================================================
    STEP 3 — SET THE INITIAL INDICATOR POSITION
@@ -82,9 +77,8 @@ function moveIndicator(btn) {
 
    querySelector() (no "All") returns only the FIRST match.
 ============================================================ */
-var firstActiveBtn = document.querySelector('.tab-btn.active');
+const firstActiveBtn = document.querySelector(".tab-btn.active");
 moveIndicator(firstActiveBtn);
-
 
 /* ============================================================
    STEP 4 — ATTACH CLICK LISTENERS TO EVERY BUTTON
@@ -92,10 +86,8 @@ moveIndicator(firstActiveBtn);
    For each button, addEventListener says:
    "when this button is clicked, run this function."
 ============================================================ */
-tabButtons.forEach(function(btn) {
-
-  btn.addEventListener('click', function() {
-
+tabButtons.forEach(function (btn) {
+  btn.addEventListener("click", function () {
     /* ── CLEAR EVERYTHING FIRST ──────────────────────────────
        The pattern: wipe the slate clean, then set only
        what you want. Safer than tracking the previous active
@@ -104,19 +96,19 @@ tabButtons.forEach(function(btn) {
        We loop ALL buttons → remove .active from each.
        We loop ALL panels  → remove .active from each.
     ──────────────────────────────────────────────────────── */
-    tabButtons.forEach(function(b) {
-      b.classList.remove('active');
+    tabButtons.forEach(function (b) {
+      b.classList.remove("active");
     });
 
-    tabPanels.forEach(function(p) {
-      p.classList.remove('active');
+    tabPanels.forEach(function (p) {
+      p.classList.remove("active");
     });
 
     /* ── ACTIVATE THE CLICKED BUTTON ─────────────────────────
        btn is the specific button that was clicked.
        We add .active back to just this one.
     ──────────────────────────────────────────────────────── */
-    btn.classList.add('active');
+    btn.classList.add("active");
 
     /* ── ACTIVATE THE MATCHING PANEL ─────────────────────────
        btn.dataset.tab reads the data-tab="..." attribute.
@@ -131,9 +123,9 @@ tabButtons.forEach(function(btn) {
          getElementById("process") → <div id="process" class="tab-panel">
          .classList.add('active') → panel fades in via CSS transition
     ──────────────────────────────────────────────────────── */
-    var targetId    = btn.dataset.tab;
-    var targetPanel = document.getElementById(targetId);
-    targetPanel.classList.add('active');
+    const targetId = btn.dataset.tab;
+    const targetPanel = document.getElementById(targetId);
+    targetPanel.classList.add("active");
 
     /* ── MOVE THE INDICATOR ──────────────────────────────────
        Pass the clicked button to our function.
@@ -141,7 +133,5 @@ tabButtons.forEach(function(btn) {
        The CSS transition on .tab-indicator does the slide.
     ──────────────────────────────────────────────────────── */
     moveIndicator(btn);
-
   }); /* end click listener */
-
 }); /* end forEach */
