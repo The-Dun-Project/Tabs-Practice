@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="TABS ANIMATION DAY 2" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=DM+Serif+Display&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <title>TABS ANIMATION DAY 2</title>
+  </head>
+
+  <body>
+    <!--MAIN PAGE CONTAINER-->
+    <div class="page">
+      <!---->
+      <div class="page-header">
+        <p class="page-label">Phase 1 · Day 1-5</p>
+        <h1 class="page-title">Tab Component</h1>
+        <p class="page-subtitle">Foundation — Static tabs, sliding indicator, fade transition</p>
+      </div>
+
+      <div class="tabs-component">
+        <div class="tab-header">
+          <ul class="tab-list" role="tablist">
+            <li><button class="tab-btn active" data-tab="craft" role="tab">Craft</button></li>
+            <li><button class="tab-btn" data-tab="process" role="tab">Process</button></li>
+            <li><button class="tab-btn" data-tab="ship" role="tab">Ship</button></li>
+          </ul>
+
+          <div class="tab-indicator" id="tab-indicator"></div>
+        </div>
+
+        <div class="tab-panels">
+          <div class="tab-panel active" id="craft" role="tabpanel">
+            <p class="panel-eyebrow">Day 1 · Foundation</p>
+            <h2 class="panel-title">The craft of building things</h2>
+            <p class="panel-body">
+              Every interface you have ever used was written line by line by someone who once knew nothing. The only
+              difference between you and them is the number of hours spent typing, breaking things, and figuring out
+              why. You are in that process now.
+            </p>
+          </div>
+
+          <div class="tab-panel" id="process" role="tabpanel">
+            <p class="panel-eyebrow">Day 3 · Motion</p>
+            <h2 class="panel-title">Motion earns its place</h2>
+            <p class="panel-body">
+              Animation is not decoration. It is information — it tells the user where they are, where something came
+              from, and where it went. A good animation makes the interface feel alive. A bad one just makes people
+              wait.
+            </p>
+          </div>
+
+          <div class="tab-panel" id="ship" role="tabpanel">
+            <p class="panel-eyebrow">Day 5 · Transition</p>
+            <h2 class="panel-title">The fade is a conversation</h2>
+            <p class="panel-body">
+              When content fades out before new content fades in, you are telling the user the old thing is leaving and
+              something new is arriving. That small moment of acknowledgment is what makes a UI feel considered rather
+              than cheap.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
