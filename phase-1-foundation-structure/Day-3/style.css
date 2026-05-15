@@ -1,0 +1,181 @@
+:root {
+  --color-bg: #0f0f0f; /* page background */
+  --color-surface: #1a1a1a; /* component background */
+  --color-border: #2e2e2e; /* border lines */
+  --color-text: #f0ece4; /* main text */
+  --color-muted: #5a5a5a; /* inactive / secondary text */
+  --color-accent: #c9a96e; /* gold accent — active states */
+
+  --font-display: "DM Serif Display", Georgia, serif;
+  --font-body: "DM Sans", sans-serif;
+
+  --radius: 6px;
+}
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-body);
+  min-height: 100vh;
+  background: var(--color-bg);
+  color: var(--color-text);
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.page {
+  width: 100%;
+  max-width: 600px;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+.page-label {
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  color: var(--color-accent);
+  margin-bottom: 6px;
+}
+
+.page-subtitle {
+  font-size: 14px;
+  color: var(--color-muted);
+}
+
+/*=============================================
+  TABS COMPONENT -OUTER WRAPPER
+==============================================*/
+.tabs-component {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  overflow: hidden;
+}
+
+.tab-header {
+  position: relative;
+  border-bottom: 1px solid var(--color-border);
+}
+/*============================================================
+   TAB LIST — THE ROW OF BUTTONS
+=============================================================*/
+.tab-list {
+  display: flex;
+  list-style: none;
+  position: relative;
+}
+
+/*==================================================
+  TAB BUTTON
+===================================================*/
+.tab-btn {
+  padding: 16px 28px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+
+  background: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  color: var(--color-muted);
+
+  transition: color 0.2s ease;
+}
+/* ============================================================
+   TAB BUTTON — HOVER STATE
+=============================================================*/
+.tab-btn:hover {
+  color: var(--color-text);
+}
+/* ============================================================
+   TAB BUTTON — ACTIVE STATE
+=============================================================*/
+.tab-btn.active {
+  color: var(--color-text);
+}
+/* ============================================================
+   SLIDING INDICATOR
+=============================================================*/
+.tab-indicator {
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  height: 2px;
+  width: 1px;
+  background-color: var(--color-accent);
+  transform-origin: left;
+
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+/* ============================================================
+   PANEL STAGE — CONTAINER FOR ALL PANELS
+=============================================================*/
+.tab-panels {
+  position: relative;
+  min-height: 200px;
+}
+/* ============================================================
+   TAB PANEL — HIDDEN STATE
+=============================================================*/
+.tab-panel {
+  position: absolute;
+  top: 0;
+  left: 0px;
+  width: 100%;
+  padding: 32px 28px;
+
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+
+  transition:
+    opacity 0.25s ease,
+    visibility 0.25s ease;
+}
+/* ============================================================
+   TAB PANEL — ACTIVE / VISIBLE STATE
+=============================================================*/
+.tab-panel.active {
+  position: relative;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+/* ============================================================
+   PANEL CONTENT — EYEBROW
+============================================================*/
+.panel-eyebrow {
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: 10px;
+}
+/* ============================================================
+   PANEL CONTENT — TITLE
+=============================================================*/
+.panel-title {
+  font-family: var(--font-display);
+  font-size: 26px;
+  line-height: 1.25;
+  margin-bottom: 14px;
+}
+/* ============================================================
+   PANEL CONTENT — BODY
+=============================================================*/
+.panel-body {
+  font-size: 14px;
+  line-height: 1.85;
+  color: var(--color-muted);
+  max-width: 48ch;
+}
