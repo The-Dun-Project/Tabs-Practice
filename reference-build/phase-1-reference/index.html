@@ -1,109 +1,225 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <!-- ============================================================
+       DOCUMENT SETUP
+       This tells the browser what kind of document this is,
+       what language it uses, how characters should be read,
+       and how the page should behave on different screen sizes.
+    ============================================================ -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Page description for basic SEO and browser metadata -->
+    <meta name="description" content="Day 1 of Tabs Practice" />
+
     <title>Tabs — Phase 1</title>
 
-    <!-- Google Fonts: loaded from the internet before the page renders -->
+    <!-- ============================================================
+       GOOGLE FONTS
+       These links load the fonts used in the project.
+
+       preconnect helps the browser connect to Google's font servers
+       earlier, which can make font loading faster.
+    ============================================================ -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
     <link
       href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=DM+Serif+Display&display=swap"
       rel="stylesheet"
     />
 
-    <!-- Our stylesheet -->
+    <!-- ============================================================
+       STYLESHEET
+       This connects the HTML file to style.css.
+
+       All layout, color, spacing, tabs styling, panel visibility,
+       and animation styling live in the CSS file.
+    ============================================================ -->
     <link rel="stylesheet" href="style.css" />
   </head>
 
   <body>
+    <!-- ============================================================
+       PAGE WRAPPER
+       .page contains the full visible page content:
+       - the heading area
+       - the tabs component
+
+       CSS uses this wrapper to control width, spacing, and layout.
+    ============================================================ -->
     <div class="page">
-      <!-- Page heading -->
+      <!-- ============================================================
+         PAGE HEADER
+         This is the introduction text above the tabs component.
+
+         It is not part of the tab functionality.
+         It simply gives context to the project.
+      ============================================================ -->
       <div class="page-header">
-        <p class="page-label">Phase 1 · Days 1-5</p>
+        <p class="page-label">Phase 1 · Day 1-5</p>
+
         <h1 class="page-title">Tab Component</h1>
-        <p class="page-subtitle">
-          Foundation — Static tabs, sliding indicator, fade transition
-        </p>
+
+        <p class="page-subtitle">Foundation — Static tabs, sliding indicator, fade transition</p>
       </div>
 
       <!-- ============================================================
          TABS COMPONENT
-         Two parts that always work together:
-           .tab-list   → the row of clickable buttons
-           .tab-panels → the content that shows and hides
+         This is the full interactive component.
 
-         They are linked by a shared name:
-           The button has data-tab="craft"
-           The panel has id="craft"
-         JavaScript uses that name to know which panel to show.
-    ============================================================ -->
+         It contains two main systems:
+         1. The tab header:
+            - tab buttons
+            - sliding indicator
+
+         2. The tab panels:
+            - content sections that show and hide
+
+         The connection between buttons and panels happens through:
+
+           button data-tab="craft"
+           panel  id="craft"
+
+         JavaScript reads the data-tab value and uses it to find the
+         matching panel by id.
+      ============================================================ -->
       <div class="tabs-component">
-        <!-- TAB BUTTONS
-           role="tablist" and role="tab" are for screen readers.
-           The first button has .active — selected on page load.
-           data-tab must match the id of its panel. -->
-        <ul class="tab-list" role="tablist">
-          <li>
-            <button class="tab-btn active" data-tab="craft" role="tab">
-              Craft
-            </button>
-          </li>
-          <li>
-            <button class="tab-btn" data-tab="process" role="tab">
-              Process
-            </button>
-          </li>
-          <li>
-            <button class="tab-btn" data-tab="ship" role="tab">Ship</button>
-          </li>
-        </ul>
+        <!-- ============================================================
+           TAB HEADER
+           This wrapper contains:
+           - .tab-list
+           - .tab-indicator
 
-        <!-- SLIDING INDICATOR (Day 3)
-           An empty div. JavaScript measures each button and moves
-           this bar underneath the active one.
-           CSS transition makes that movement animate smoothly. -->
-        <div class="tab-indicator" id="tab-indicator"></div>
+           This wrapper matters because the indicator is positioned
+           absolutely in CSS.
 
-        <!-- CONTENT PANELS
-           All three panels live here, stacked on top of each other.
-           Only the one with .active is visible at any time.
-           The id must match the data-tab on its button. -->
+           .tab-header gives the indicator a controlled positioning area.
+        ============================================================ -->
+        <div class="tab-header">
+          <!-- ============================================================
+             TAB LIST
+             This is the row of clickable tab buttons.
+
+             role="tablist" helps screen readers understand that this is
+             a set of tabs.
+
+             Each button has:
+             - class="tab-btn"
+             - data-tab="..."
+             - role="tab"
+
+             The first button starts with .active so the page has an
+             active tab immediately on load.
+          ============================================================ -->
+          <ul class="tab-list" role="tablist">
+            <li>
+              <button class="tab-btn active" data-tab="craft" role="tab">Craft</button>
+            </li>
+
+            <li>
+              <button class="tab-btn" data-tab="process" role="tab">Process</button>
+            </li>
+
+            <li>
+              <button class="tab-btn" data-tab="ship" role="tab">Ship</button>
+            </li>
+          </ul>
+
+          <!-- ============================================================
+             SLIDING INDICATOR
+             This is an empty div.
+
+             It has no text because its job is visual only.
+
+             JavaScript measures the active button and moves this indicator
+             underneath it.
+
+             CSS gives it:
+             - height
+             - color
+             - absolute positioning
+             - smooth transform transition
+          ============================================================ -->
+          <div class="tab-indicator" id="tab-indicator"></div>
+        </div>
+
+        <!-- ============================================================
+           CONTENT PANELS
+           These are the content sections controlled by the tabs.
+
+           Only one panel should have .active at a time.
+
+           The active panel is visible.
+           The inactive panels are hidden by CSS.
+
+           Important:
+           Each panel id must match one button's data-tab value.
+        ============================================================ -->
         <div class="tab-panels">
-          <!-- Panel 1: .active means visible on load -->
+          <!-- ============================================================
+             PANEL 1 — ACTIVE ON PAGE LOAD
+             This panel has id="craft".
+
+             It matches:
+               data-tab="craft"
+
+             It also starts with .active, so it is visible when the page
+             first loads.
+          ============================================================ -->
           <div class="tab-panel active" id="craft" role="tabpanel">
             <p class="panel-eyebrow">Day 1 · Foundation</p>
+
             <h2 class="panel-title">The craft of building things</h2>
+
             <p class="panel-body">
-              Every interface you have ever used was written line by line by
-              someone who once knew nothing. The only difference between you and
-              them is the number of hours spent typing, breaking things, and
-              figuring out why. You are in that process now.
+              Every interface you have ever used was written line by line by someone who once knew nothing. The only
+              difference between you and them is the number of hours spent typing, breaking things, and figuring out
+              why. You are in that process now.
             </p>
           </div>
 
-          <!-- Panel 2: hidden by default, no .active -->
+          <!-- ============================================================
+             PANEL 2 — HIDDEN BY DEFAULT
+             This panel has id="process".
+
+             It matches:
+               data-tab="process"
+
+             It does not have .active at the start, so CSS keeps it hidden
+             until JavaScript activates it.
+          ============================================================ -->
           <div class="tab-panel" id="process" role="tabpanel">
             <p class="panel-eyebrow">Day 3 · Motion</p>
+
             <h2 class="panel-title">Motion earns its place</h2>
+
             <p class="panel-body">
-              Animation is not decoration. It is information — it tells the user
-              where they are, where something came from, and where it went. A
-              good animation makes the interface feel alive. A bad one just
-              makes people wait.
+              Animation is not decoration. It is information — it tells the user where they are, where something came
+              from, and where it went. A good animation makes the interface feel alive. A bad one just makes people
+              wait.
             </p>
           </div>
 
-          <!-- Panel 3: hidden by default, no .active -->
+          <!-- ============================================================
+             PANEL 3 — HIDDEN BY DEFAULT
+             This panel has id="ship".
+
+             It matches:
+               data-tab="ship"
+
+             JavaScript will show this panel when the Ship button is clicked.
+          ============================================================ -->
           <div class="tab-panel" id="ship" role="tabpanel">
             <p class="panel-eyebrow">Day 5 · Transition</p>
+
             <h2 class="panel-title">The fade is a conversation</h2>
+
             <p class="panel-body">
-              When content fades out before new content fades in, you are
-              telling the user the old thing is leaving and something new is
-              arriving. That small moment of acknowledgment is what makes a UI
-              feel considered rather than cheap.
+              When content fades out before new content fades in, you are telling the user the old thing is leaving and
+              something new is arriving. That small moment of acknowledgment is what makes a UI feel considered rather
+              than cheap.
             </p>
           </div>
         </div>
@@ -113,7 +229,17 @@
     </div>
     <!-- end .page -->
 
-    <!-- Script at the bottom so all HTML exists before JS runs -->
+    <!-- ============================================================
+       JAVASCRIPT
+       The script is placed at the bottom of the body.
+
+       Why?
+       Because the browser reads HTML from top to bottom.
+
+       By placing script.js here, we make sure all the buttons,
+       panels, and indicator already exist before JavaScript tries
+       to find and control them.
+    ============================================================ -->
     <script src="script.js"></script>
   </body>
 </html>
