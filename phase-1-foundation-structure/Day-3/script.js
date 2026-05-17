@@ -17,11 +17,11 @@ if (tabButtons.length > 0 && tabPanels.length > 0 && indicator && firstActiveBtn
   tabButtons.forEach((btn) => {
     btn.addEventListener("click", () => {
       tabButtons.forEach((button) => {
-        button.classList.remove(".active");
+        button.classList.remove("active");
       });
 
       tabPanels.forEach((panel) => {
-        panel.classList.remove(".active");
+        panel.classList.remove("active");
       });
 
       btn.classList.add("active");
